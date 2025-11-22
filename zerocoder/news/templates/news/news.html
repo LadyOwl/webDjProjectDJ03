@@ -1,15 +1,25 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}
-    Новостная страница
-{% endblock %}
+{% block title %}Новости{% endblock %}
 
 {% block content %}
-    <h1>Новостная страница</h1>
+<h1>Новостная страница</h1>
+
+{% if user.is_authenticated %}
+    <p><a href="{% url 'create_news' %}" class="btn btn-primary btn-sm">+ Новая новость</a></p>
+{% endif %}
+
 {% for new in news %}
-    <div>
-        <h3> {{new.title}} </h3>
-        <p> {{new.short_description}} </p>
+<div class="card mb-3">
+    <div class="card-body">
+        <h3>{{ new.title }}</h3>
+        <p><strong>Автор:</strong> {{ new.author.username }}</p>
+        <p>{{ new.short_description }}</p>
+        <small class="text-muted">Опубликовано: {{ new.pub_date|date:"d.m.Y H:i" }}</small>
     </div>
+</div>
+{% empty %}
+<p>Нет новостей.</p>
 {% endfor %}
+
 {% endblock %}
